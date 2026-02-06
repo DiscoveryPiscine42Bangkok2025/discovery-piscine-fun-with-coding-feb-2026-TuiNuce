@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+</head>
+<body>
+  <input type="text" id="leftOperand" placeholder="Enter a number or text">
+  <select id="operator">
+    <option value="+">+</option>
+    <option value="-">-</option>
+    <option value="*">*</option>
+    <option value="/">/</option>
+    <option value="%">%</option>
+  </select>
+  <input type="text" id="rightOperand" placeholder="Enter another number or text">
+  <button id="calculate">Try me!</button>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function isIntegerOrText(value) {
+        return /^[0-9]+$/.test(value) || /^[a-zA-Z]+$/.test(value);
+      }
+
+      $("#calculate").on("click", function () {
+        const leftOperand = $("#leftOperand").val();
+        const operator = $("#operator").val();
+        const rightOperand = $("#rightOperand").val();
+
+        if (!isIntegerOrText(leftOperand) || !isIntegerOrText(rightOperand)) {
+          alert("int เท่านั้นคับน้อง");
+          return;
+        }
+
+        const leftValue = /^[0-9]+$/.test(leftOperand) ? parseInt(leftOperand, 10) : leftOperand;
+        const rightValue = /^[0-9]+$/.test(rightOperand) ? parseInt(rightOperand, 10) : rightOperand;
+
+        if (typeof leftValue === "number" && typeof rightValue === "number") {
+          if ((operator === "/" || operator === "%") && rightValue === 0) {
+            alert("It’s over 9000!");
+            console.log("It’s over 9000!");
+            return;
+          }
+
+          let result;
+          switch (operator) {
+            case "+":
+              result = leftValue + rightValue;
+              break;
+            case "-":
+              result = leftValue - rightValue;
+              break;
+            case "*":
+              result = leftValue * rightValue;
+              break;
+            case "/":
+              result = Math.floor(leftValue / rightValue);
+              break;
+            case "%":
+              result = leftValue % rightValue;
+              break;
+          }
+
+          alert(`Result: ${result}`);
+          console.log(`Result: ${result}`);
+        } else {
+          alert("Error: Cannot perform operations on text values.");
+        }
+      });
+
+      setInterval(() => alert("Please, use me..."), 30000);
+    });
+  </script>
+</body>
+</html>
